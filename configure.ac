@@ -1,7 +1,7 @@
 AC_PREREQ(2.57)
 AC_INIT([tokenAuthz],[1.2.0],[andreas.joachim.peters@cern.ch,derek.feichtinger@cern.ch])
 AC_CONFIG_SRCDIR([TTokenAuthz.cxx])
-AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_MACRO_DIRS([m4])
 
 # detect system type and define some specific settings
 AC_CANONICAL_TARGET

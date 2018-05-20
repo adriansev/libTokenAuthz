@@ -8,8 +8,10 @@
 
 SUBDIRS = AuthzXMLreader SealedEnvelope .
 
-CPPFLAGS = -I /usr/kerberos/include -I$(top_srcdir)/SealedEnvelope  -I$(top_srcdir)/AuthzXMLreader \
+AM_CPPFLAGS = -I /usr/kerberos/include -I$(top_srcdir)/SealedEnvelope  -I$(top_srcdir)/AuthzXMLreader \
            $(BASE_INCDIR) $(OPENSSL_INCDIR)
+
+ACLOCAL_AMFLAGS = -I m4
 
 lib_LTLIBRARIES = libTokenAuthz.la
 include_HEADERS = TTokenAuthz.h 

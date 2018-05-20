@@ -1,7 +1,7 @@
 Summary: TTokenAuthz authorization library
 Name: tokenauthz
 Version: 1.2.0
-Release: 1
+Release: 1%{?dist}
 URL: none
 Source0: %{name}-%{version}.tar.gz
 License: OpenSource
@@ -9,7 +9,13 @@ License: OpenSource
 Group: CERN
 BuildRoot: %{_tmppath}/%{name}-root
 
-BuildRequires: libxml2-devel, libcurl-devel, openssl-devel
+BuildRequires: libxml2-devel, libcurl-devel
+
+%if %{?fedora}%{!?fedora:0} >= 21
+BuildRequires: compat-openssl10-devel
+%else
+BuildRequires: openssl-devel
+%endif
 
 %description
 This package contains the token authorization library.
@@ -19,9 +25,12 @@ The software and RPM packaging was provided by Andreas.Joachim.Peters@cern.ch [C
 
 %prep
 %setup -q
+./bootstrap.sh
+
 %build
-./configure  --prefix=/usr --libdir=/usr/lib64 --includedir=/usr/include
+./configure --prefix=%{_prefix} --libdir=%{_libdir} --includedir=%{_includedir}
 make
+
 %install
 make DESTDIR=$RPM_BUILD_ROOT install
 find $RPM_BUILD_ROOT \( -type f -o -type l \) -print \
