@@ -33,8 +33,12 @@ make
 
 %install
 make DESTDIR=$RPM_BUILD_ROOT install
+cp SealedEnvelope/authzwrite.pl SealedEnvelope/xrdauthz.pl SealedEnvelope/xrdauthz-read.pl SealedEnvelope/xrdauthz-write.pl $RPM_BUILD_ROOT/usr/bin/
+
 find $RPM_BUILD_ROOT \( -type f -o -type l \) -print \
     | sed "s#^$RPM_BUILD_ROOT/*#/#" > RPM-FILE-LIST
+
+##for pl in *.pl; do echo "/usr/bin/${pl}"; done > RPM-FILE-LIST
 
 %clean
 rm -rf $RPM_BUILD_ROOT

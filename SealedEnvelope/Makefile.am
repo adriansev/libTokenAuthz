@@ -1,3 +1,5 @@
+ACLOCAL_AMFLAGS = -I m4
+
 AM_CPPFLAGS = $(BASE_INCDIR) $(OPENSSL_INCDIR)
 
 lib_LTLIBRARIES = libSealedEnvelope.la
@@ -18,7 +20,7 @@ libConvSealedEnvelope_la_LIBADD =  -lz $(OPENSSL_LIBDIR) $(OPENSSL_LIBS) \
                                    $(LIBSOCKET) $(LIBNSL) $(LIBPTHREAD) \
                                    $(LIBCURL) -ldl
 
-bin_PROGRAMS = encode decode 
+bin_PROGRAMS = encode decode
 encode_SOURCES = encode.cxx
 encode_LDADD = libSealedEnvelope.la $(LIBCURL)
 
@@ -70,16 +72,6 @@ test:
 	/usr/bin/openssl x509 -days 3650 -signkey key.pem -in certreq.pem -req -out cert.pem &&\
 	/usr/bin/openssl x509 -pubkey -in cert.pem > pkey.pem && \
 	./sealtest; )
-
-
-rpm:
-	rm -f ../$(distdir);
-	ln -s ${PWD} ../$(distdir);
-	echo "HOME       %{expand:%%(cd; pwd)}" > .rpmmacros 
-	echo "%_topdir    %{HOME}/rpm" >> .rpmmacros
-	cd ../; tar cvzf ${HOME}/rpm/SOURCES/$(distdir).tar.gz $(distdir)
-	cp SealedEnvelope.spec ${HOME}/rpm/SPECS/
-	rpm -ba ${HOME}/rpm/SPECS/SealedEnvelope.spec
 
 ##install-exec-local: $(PERLMODULEMAKE) 
 
