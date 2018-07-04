@@ -3,20 +3,22 @@
 VER=$1
 REL=$2
 
+PKGNAME="tokenauthz"
+
 ./create_targz ${VER}
 rez=$?
 [[ ${rez} == 1 ]] && { echo "Could not create targz"; exit 1;}
 
 rpmdev-setuptree
 
-mv -f tokenauthz-${VER}.tar.gz $HOME/rpmbuild/SOURCES/
-cp -f tokenauthz.spec tokenauthz.spec_wip
+mv -f ${PKGNAME}-${VER}.tar.gz $HOME/rpmbuild/SOURCES/
+cp -f ${PKGNAME}.spec ${PKGNAME}.spec_wip
 
-sed -i "/Version:/c\Version: ${VER}" tokenauthz.spec_wip
+sed -i "/Version:/c\Version: ${VER}" ${PKGNAME}.spec_wip
 
-[[ -n "${REL}" ]] && sed -i "/Release:/c\Release: ${REL}%{?dist}" tokenauthz.spec_wip
-mv -f tokenauthz.spec_wip $HOME/rpmbuild/SPECS/tokenauthz.spec
+[[ -n "${REL}" ]] && sed -i "/Release:/c\Release: ${REL}%{?dist}" ${PKGNAME}.spec_wip
+mv -f ${PKGNAME}.spec_wip $HOME/rpmbuild/SPECS/${PKGNAME}.spec
 
 cd $HOME/rpmbuild/SPECS
-rpmbuild --define "debug_package %{nil}" -ba tokenauthz.spec
+rpmbuild --define "debug_package %{nil}" -ba ${PKGNAME}.spec
 
